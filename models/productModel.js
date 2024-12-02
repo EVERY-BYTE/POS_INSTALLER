@@ -15,6 +15,18 @@ exports.ProductModel = index_1.sequelize.define('Product', {
         type: sequelize_1.DataTypes.STRING(255),
         allowNull: false
     },
+    productSize: {
+        type: sequelize_1.DataTypes.ENUM('reguler', 'medium', 'jumbo'),
+        allowNull: false
+    },
+    productSizeInCm: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    productColor: {
+        type: sequelize_1.DataTypes.STRING(100),
+        allowNull: false
+    },
     productCode: {
         type: sequelize_1.DataTypes.STRING(10),
         allowNull: false
@@ -34,14 +46,6 @@ exports.ProductModel = index_1.sequelize.define('Product', {
     productStockQuantity: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true
-    },
-    createdAt: {
-        type: sequelize_1.DataTypes.DATE,
-        defaultValue: sequelize_1.DataTypes.NOW
-    },
-    updatedAt: {
-        type: sequelize_1.DataTypes.DATE,
-        defaultValue: sequelize_1.DataTypes.NOW
     }
 }, {
     tableName: 'products',

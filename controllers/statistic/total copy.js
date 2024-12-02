@@ -9,7 +9,7 @@ const saleModel_1 = require("../../models/saleModel");
 const salesItemModel_1 = require("../../models/salesItemModel");
 const productModel_1 = require("../../models/productModel");
 const companyModel_1 = require("../../models/companyModel");
-const orderCategoryModel_1 = require("../../models/orderCategoryModel");
+const platformModel_1 = require("../../models/platformModel");
 const findTotal = async (req, res) => {
     try {
         const totalTransaction = await saleModel_1.SaleModel.count({
@@ -50,7 +50,7 @@ const findTotal = async (req, res) => {
                 deleted: { [sequelize_1.Op.eq]: 0 }
             }
         });
-        const totalPlatform = await orderCategoryModel_1.OrderCategoryModel.count({
+        const totalPlatform = await platformModel_1.OrderCategoryModel.count({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 }
             }

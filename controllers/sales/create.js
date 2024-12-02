@@ -8,7 +8,7 @@ const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
 const saleModel_1 = require("../../models/saleModel");
-const salesItemModel_1 = require("../../models/salesItemModel");
+const saleItemModel_1 = require("../../models/saleItemModel");
 const saleSchema_1 = require("../../schemas/saleSchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const generateId_1 = require("../../utilities/generateId");
@@ -21,16 +21,17 @@ const createSale = async (req, res) => {
     }
     try {
         const { salesItems, ...saleData } = value;
-        const sale = await saleModel_1.SaleModel.create({ ...saleData, salesCode: (0, generateId_1.generateUniqueId)(), userId: 1 }, {
+        const saleCode = (0, generateId_1.generateUniqueId)();
+        const sale = await saleModel_1.SaleModel.create({ ...saleData, saleCode: (0, generateId_1.generateUniqueId)(), userId: 1 }, {
             include: [
                 {
-                    model: salesItemModel_1.SalesItemModel,
-                    as: 'salesItems'
+                    model: saleItemModel_1.SaleItemModel,
+                    as: 'saleItems'
                 }
             ]
         });
         if (salesItems && salesItems.length) {
-            await Promise.all(salesItems.map((item) => salesItemModel_1.SalesItemModel.create({
+            await Promise.all(salesItems.map((item) => saleItemModel_1.SaleItemModel.create({
                 ...item,
                 saleId: sale.saleId
             })));

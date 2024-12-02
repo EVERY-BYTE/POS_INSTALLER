@@ -7,6 +7,9 @@ exports.findAllProductsSchema = exports.findOneProductSchema = exports.deletePro
 const joi_1 = __importDefault(require("joi"));
 exports.createProductSchema = joi_1.default.object({
     productName: joi_1.default.string().max(255).required(),
+    productSize: joi_1.default.string().valid('reguler', 'medium', 'jumbo').required(),
+    productSizeInCm: joi_1.default.number().required(),
+    productColor: joi_1.default.string().max(80).required(),
     productImage: joi_1.default.string().optional(),
     productCategory: joi_1.default.string().max(100).allow('').optional(),
     productPrice: joi_1.default.number().positive().required(),
@@ -17,6 +20,9 @@ exports.createProductSchema = joi_1.default.object({
 exports.updateProductSchema = joi_1.default.object({
     productId: joi_1.default.number().integer().positive().required(),
     productName: joi_1.default.string().max(255).optional(),
+    productSize: joi_1.default.string().valid('reguler', 'medium', 'jumbo').optional(),
+    productSizeInCm: joi_1.default.number().optional(),
+    productColor: joi_1.default.string().max(80).optional(),
     productImage: joi_1.default.string().optional(),
     productCategory: joi_1.default.string().max(100).allow('').optional(),
     productPrice: joi_1.default.number().positive().optional(),

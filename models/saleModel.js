@@ -5,7 +5,7 @@ const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const user_1 = require("./user");
 const zygote_1 = require("./zygote");
-const salesItemModel_1 = require("./salesItemModel");
+const saleItemModel_1 = require("./saleItemModel");
 exports.SaleModel = index_1.sequelize.define('Sale', {
     ...zygote_1.ZygoteModel,
     saleId: {
@@ -25,37 +25,48 @@ exports.SaleModel = index_1.sequelize.define('Sale', {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-    salesCode: {
+    saleTax: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+        defaultValue: 0
+    },
+    saleDiscount: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+        defaultValue: 0
+    },
+    saleDeliveryCost: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0
+    },
+    saleCode: {
         type: sequelize_1.DataTypes.STRING(5),
         allowNull: false
     },
-    salesCategory: {
+    salePlatformName: {
         type: sequelize_1.DataTypes.STRING(250),
         allowNull: false
     },
-    salesDeliverCompanyName: {
+    saleDeliverCompanyName: {
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
     },
-    salesDeliverCompanyAddress: {
+    saleDeliverCompanyAddress: {
         type: sequelize_1.DataTypes.STRING(250),
         allowNull: false
     },
     salePaymentMethod: {
         type: sequelize_1.DataTypes.ENUM('cash', 'credit_card'),
         allowNull: true
-    },
-    createdAt: {
-        type: sequelize_1.DataTypes.DATE,
-        defaultValue: sequelize_1.DataTypes.NOW
     }
 }, {
     tableName: 'sales',
-    timestamps: false,
+    timestamps: true,
     underscored: true,
     freezeTableName: true
 });
-exports.SaleModel.hasMany(salesItemModel_1.SalesItemModel, {
-    as: 'salesItems',
+exports.SaleModel.hasMany(saleItemModel_1.SaleItemModel, {
+    as: 'saleItems',
     foreignKey: 'saleId'
 });

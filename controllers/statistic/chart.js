@@ -3,34 +3,67 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllSales = void 0;
+exports.findChart = void 0;
 const http_status_codes_1 = require("http-status-codes");
-const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
-const saleModel_1 = require("../../models/saleModel");
-const saleSchema_1 = require("../../schemas/saleSchema");
-const logger_1 = __importDefault(require("../../utilities/logger"));
-const saleItemModel_1 = require("../../models/saleItemModel");
 const sequelize_1 = require("sequelize");
-const pagination_1 = require("../../utilities/pagination");
+const saleItemModel_1 = require("../../models/saleItemModel");
 const productModel_1 = require("../../models/productModel");
-const findAllSales = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(saleSchema_1.findAllSaleSchema, req.query);
+const saleModel_1 = require("../../models/saleModel");
+const logger_1 = __importDefault(require("../../utilities/logger"));
+const pagination_1 = require("../../utilities/pagination");
+const validateRequest_1 = require("../../utilities/validateRequest");
+const statisticSchema_1 = require("../../schemas/statisticSchema");
+// Helper function to calculate date ranges
+const getDateRange = (filterType) => {
+    const now = new Date();
+    let startDate;
+    let endDate = new Date();
+    switch (filterType) {
+        case 'day':
+            startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            break;
+        case 'week':
+            startDate = new Date(now);
+            startDate.setDate(now.getDate() - now.getDay()); // Start of the week (Sunday)
+            break;
+        case 'month':
+            startDate = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the month
+            break;
+        case 'year':
+            startDate = new Date(now.getFullYear(), 0, 1); // Start of the year
+            break;
+        default:
+            startDate = new Date(0); // Default: all data
+    }
+    return { startDate, endDate };
+};
+const findChart = async (req, res) => {
+    const { error, value } = (0, validateRequest_1.validateRequest)(statisticSchema_1.findStatisticSchema, req.query);
     if (error) {
         const message = `Invalid request query! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const { page: queryPage, size: querySize, search, pagination, salePlatformName, startDate, endDate } = value;
+        const { page: queryPage, size: querySize, search, pagination, salePlatformName, startDate, endDate, filterType // New query parameter for filtering
+         } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        const dateFilter = startDate && endDate
+        // Calculate date range based on filterType
+        const { startDate: filterStartDate, endDate: filterEndDate } = getDateRange(filterType ?? '');
+        const dateFilter = filterType
             ? {
                 createdAt: {
-                    [sequelize_1.Op.between]: [new Date(startDate), new Date(endDate)]
+                    [sequelize_1.Op.between]: [filterStartDate, filterEndDate]
                 }
             }
-            : {};
+            : startDate && endDate
+                ? {
+                    createdAt: {
+                        [sequelize_1.Op.between]: [new Date(startDate), new Date(endDate)]
+                    }
+                }
+                : {};
         const result = await saleModel_1.SaleModel.findAndCountAll({
             where: {
                 deleted: 0,
@@ -48,9 +81,6 @@ const findAllSales = async (req, res) => {
                     as: 'saleItems',
                     attributes: [
                         'createdAt',
-                        'saleItemId',
-                        'saleId',
-                        'productId',
                         'saleItemQuantity',
                         'saleItemPrice',
                         'saleItemSubtotal'
@@ -59,26 +89,12 @@ const findAllSales = async (req, res) => {
                         {
                             model: productModel_1.ProductModel,
                             as: 'product',
-                            attributes: [
-                                'productName',
-                                'productCategory',
-                                'productPrice',
-                                'productStockQuantity'
-                            ]
+                            attributes: ['productName']
                         }
                     ]
                 }
             ],
-            attributes: [
-                'createdAt',
-                'saleTotalAmount',
-                'saleId',
-                'salePaymentMethod',
-                'saleCode',
-                'saleDeliverCompanyName',
-                'saleDeliverCompanyAddress',
-                'salePlatformName'
-            ],
+            attributes: ['createdAt', 'saleTotalAmount'],
             order: [['saleId', 'desc']],
             ...(pagination === 'true' && {
                 limit: page.limit,
@@ -95,4 +111,4 @@ const findAllSales = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findAllSales = findAllSales;
+exports.findChart = findChart;

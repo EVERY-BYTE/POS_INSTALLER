@@ -8,7 +8,7 @@ const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
 const saleModel_1 = require("../../models/saleModel");
-const salesItemModel_1 = require("../../models/salesItemModel");
+const saleItemModel_1 = require("../../models/saleItemModel");
 const saleSchema_1 = require("../../schemas/saleSchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const productModel_1 = require("../../models/productModel");
@@ -28,16 +28,16 @@ const findOneSale = async (req, res) => {
             },
             include: [
                 {
-                    model: salesItemModel_1.SalesItemModel,
-                    as: 'salesItems',
+                    model: saleItemModel_1.SaleItemModel,
+                    as: 'saleItems',
                     attributes: [
                         'createdAt',
-                        'salesItemId',
+                        'saleItemId',
                         'saleId',
                         'productId',
-                        'salesItemQuantity',
-                        'salesItemPrice',
-                        'salesItemSubtotal'
+                        'saleItemQuantity',
+                        'saleItemPrice',
+                        'saleItemSubtotal'
                     ],
                     include: [
                         {
@@ -59,9 +59,9 @@ const findOneSale = async (req, res) => {
                 'saleId',
                 'saleTotalAmount',
                 'salePaymentMethod',
-                'salesCode',
-                'salesDeliverCompanyName',
-                'salesDeliverCompanyAddress'
+                'saleCode',
+                'saleDeliverCompanyName',
+                'saleDeliverCompanyAddress'
             ]
         });
         if (!sale) {

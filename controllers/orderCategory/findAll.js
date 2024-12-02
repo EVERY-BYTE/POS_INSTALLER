@@ -7,7 +7,7 @@ exports.findAllOrderCategories = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
-const orderCategoryModel_1 = require("../../models/orderCategoryModel");
+const platformModel_1 = require("../../models/platformModel");
 const orderCategorySchema_1 = require("../../schemas/orderCategorySchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const pagination_1 = require("../../utilities/pagination");
@@ -22,7 +22,7 @@ const findAllOrderCategories = async (req, res) => {
     try {
         const { page: queryPage, size: querySize, search, pagination } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        const result = await orderCategoryModel_1.OrderCategoryModel.findAndCountAll({
+        const result = await platformModel_1.OrderCategoryModel.findAndCountAll({
             where: {
                 ...(Boolean(req.query.search) && {
                     orderCategoryName: { [sequelize_1.Op.like]: `%${search}%` }

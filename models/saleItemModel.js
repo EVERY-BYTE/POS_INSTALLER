@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SalesItemModel = void 0;
+exports.SaleItemModel = void 0;
 const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const saleModel_1 = require("./saleModel");
 const productModel_1 = require("./productModel");
 const zygote_1 = require("./zygote");
-exports.SalesItemModel = index_1.sequelize.define('SalesItem', {
+exports.SaleItemModel = index_1.sequelize.define('SaleItem', {
     ...zygote_1.ZygoteModel,
-    salesItemId: {
+    saleItemId: {
         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true
@@ -29,25 +29,25 @@ exports.SalesItemModel = index_1.sequelize.define('SalesItem', {
             key: 'productId'
         }
     },
-    salesItemQuantity: {
+    saleItemQuantity: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false
     },
-    salesItemPrice: {
+    saleItemPrice: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-    salesItemSubtotal: {
+    saleItemSubtotal: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
         allowNull: false
     }
 }, {
-    tableName: 'sales_items',
+    tableName: 'sale_items',
     timestamps: true,
     underscored: true,
     freezeTableName: true
 });
-exports.SalesItemModel.belongsTo(productModel_1.ProductModel, {
+exports.SaleItemModel.belongsTo(productModel_1.ProductModel, {
     as: 'product',
     foreignKey: 'productId'
 });

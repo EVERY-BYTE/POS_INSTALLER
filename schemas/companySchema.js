@@ -8,6 +8,7 @@ const joi_1 = __importDefault(require("joi"));
 // Schema for creating a new Company
 exports.createCompanySchema = joi_1.default.object({
     companyName: joi_1.default.string().max(255).required(),
+    companyAddress: joi_1.default.string().required(),
     createdAt: joi_1.default.date().optional(),
     updatedAt: joi_1.default.date().optional()
 });
@@ -15,6 +16,7 @@ exports.createCompanySchema = joi_1.default.object({
 exports.updateCompanySchema = joi_1.default.object({
     companyId: joi_1.default.number().integer().positive().required(),
     companyName: joi_1.default.string().max(255).optional(),
+    companyAddress: joi_1.default.string().optional(),
     updatedAt: joi_1.default.date().optional()
 });
 // Schema for deleting an Company

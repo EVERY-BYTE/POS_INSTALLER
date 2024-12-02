@@ -7,7 +7,7 @@ exports.updateOrderCategory = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
-const orderCategoryModel_1 = require("../../models/orderCategoryModel");
+const platformModel_1 = require("../../models/platformModel");
 const orderCategorySchema_1 = require("../../schemas/orderCategorySchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const updateOrderCategory = async (req, res) => {
@@ -18,7 +18,7 @@ const updateOrderCategory = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const [updated] = await orderCategoryModel_1.OrderCategoryModel.update(value, {
+        const [updated] = await platformModel_1.OrderCategoryModel.update(value, {
             where: { orderCategoryId: value.orderCategoryId }
         });
         if (!updated) {

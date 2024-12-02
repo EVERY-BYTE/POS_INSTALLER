@@ -1,26 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompanyModel = void 0;
+exports.PlatformModel = void 0;
 const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const zygote_1 = require("./zygote");
-exports.CompanyModel = index_1.sequelize.define('Company', {
+exports.PlatformModel = index_1.sequelize.define('Platform', {
     ...zygote_1.ZygoteModel,
-    companyId: {
+    platformId: {
         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true
     },
-    companyName: {
+    platformName: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
-    },
-    companyAddress: {
-        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     }
 }, {
-    tableName: 'company',
+    tableName: 'platform', // Updated table name
     timestamps: false,
     underscored: true,
     freezeTableName: true

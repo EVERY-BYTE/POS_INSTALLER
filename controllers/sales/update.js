@@ -10,7 +10,7 @@ const response_1 = require("../../utilities/response");
 const saleModel_1 = require("../../models/saleModel");
 const saleSchema_1 = require("../../schemas/saleSchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
-const salesItemModel_1 = require("../../models/salesItemModel");
+const saleItemModel_1 = require("../../models/saleItemModel");
 const updateSale = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(saleSchema_1.updateSaleSchema, req.body);
     if (error) {
@@ -30,7 +30,7 @@ const updateSale = async (req, res) => {
         const sale = await saleModel_1.SaleModel.findByPk(value.saleId, {
             include: [
                 {
-                    model: salesItemModel_1.SalesItemModel,
+                    model: saleItemModel_1.SaleItemModel,
                     as: 'salesItems'
                 }
             ]

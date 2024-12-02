@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const orderCategory_1 = require("../../controllers/orderCategory");
+const platform_1 = require("../../controllers/platform");
 const router = (0, express_1.Router)();
-router.get('/', orderCategory_1.orderCategoryControllers.findAll);
-router.get('/detail/:orderCategoryId', orderCategory_1.orderCategoryControllers.findOne);
-router.post('/', orderCategory_1.orderCategoryControllers.create);
-router.patch('/', orderCategory_1.orderCategoryControllers.update);
-router.delete('/:orderCategoryId', orderCategory_1.orderCategoryControllers.remove);
+router.get('/', platform_1.orderCategoryControllers.findAll);
+router.get('/detail/:orderCategoryId', platform_1.orderCategoryControllers.findOne);
+router.post('/', platform_1.orderCategoryControllers.create);
+router.patch('/', platform_1.orderCategoryControllers.update);
+router.delete('/:orderCategoryId', platform_1.orderCategoryControllers.remove);
 exports.default = router;
