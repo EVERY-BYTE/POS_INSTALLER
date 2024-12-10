@@ -77,7 +77,9 @@ const findAllSales = async (req, res) => {
                 'saleCode',
                 'saleDeliverCompanyName',
                 'saleDeliverCompanyAddress',
-                'salePlatformName'
+                'salePlatformName',
+                'salePo',
+                'saleOrderStatus'
             ],
             order: [['saleId', 'desc']],
             ...(pagination === 'true' && {

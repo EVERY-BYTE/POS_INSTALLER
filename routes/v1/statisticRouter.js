@@ -5,4 +5,5 @@ const statistic_1 = require("../../controllers/statistic");
 const router = (0, express_1.Router)();
 router.get('/total', statistic_1.statisticController.findTotal);
 router.get('/chart', statistic_1.statisticController.findChart);
+router.get('/report', statistic_1.statisticController.findReportTotals);
 exports.default = router;

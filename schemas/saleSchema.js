@@ -23,6 +23,7 @@ exports.createSaleSchema = joi_1.default.object({
     salePlatformName: joi_1.default.string().required(),
     saleDeliverCompanyName: joi_1.default.string().required(),
     saleDeliverCompanyAddress: joi_1.default.string().required(),
+    salePo: joi_1.default.string().optional().allow(''),
     saleItems: joi_1.default.array()
         .items(joi_1.default.object({
         productId: joi_1.default.number().integer().positive().required(),
@@ -34,20 +35,26 @@ exports.createSaleSchema = joi_1.default.object({
 });
 exports.updateSaleSchema = joi_1.default.object({
     saleId: joi_1.default.number().integer().positive().required(),
-    saleTotalAmount: joi_1.default.number().positive().required(),
+    saleTotalAmount: joi_1.default.number().positive().optional(),
     saleTax: joi_1.default.number().positive().optional(),
     saleDiscount: joi_1.default.number().positive().optional(),
     saleDeliveryCost: joi_1.default.number().positive().optional(),
-    salePaymentMethod: joi_1.default.string().required(),
-    salePlatformName: joi_1.default.string().required(),
-    saleDeliverCompanyName: joi_1.default.string().required(),
-    saleDeliverCompanyAddress: joi_1.default.string().required(),
-    saleItems: joi_1.default.array().items(joi_1.default.object({
-        productId: joi_1.default.number().integer().positive().required(),
-        saleItemQuantity: joi_1.default.number().integer().positive().required(),
-        saleItemPrice: joi_1.default.number().positive().required(),
-        saleItemSubtotal: joi_1.default.number().positive().required()
+    salePaymentMethod: joi_1.default.string().optional(),
+    salePlatformName: joi_1.default.string().optional(),
+    saleDeliverCompanyName: joi_1.default.string().optional(),
+    saleOrderStatus: joi_1.default.string()
+        .valid('waiting', 'process', 'cancel', 'done')
+        .optional()
+        .allow(''),
+    saleDeliverCompanyAddress: joi_1.default.string().optional(),
+    saleItems: joi_1.default.array()
+        .items(joi_1.default.object({
+        productId: joi_1.default.number().integer().positive().optional(),
+        saleItemQuantity: joi_1.default.number().integer().positive().optional(),
+        saleItemPrice: joi_1.default.number().positive().optional(),
+        saleItemSubtotal: joi_1.default.number().positive().optional()
     }))
+        .optional()
 });
 exports.findOneSaleSchema = joi_1.default.object({
     saleId: joi_1.default.number().integer().positive().required()

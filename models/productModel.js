@@ -4,6 +4,7 @@ exports.ProductModel = void 0;
 const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const zygote_1 = require("./zygote");
+const productVariantModel_1 = require("./productVariantModel");
 exports.ProductModel = index_1.sequelize.define('Product', {
     ...zygote_1.ZygoteModel,
     productId: {
@@ -13,18 +14,6 @@ exports.ProductModel = index_1.sequelize.define('Product', {
     },
     productName: {
         type: sequelize_1.DataTypes.STRING(255),
-        allowNull: false
-    },
-    productSize: {
-        type: sequelize_1.DataTypes.ENUM('reguler', 'medium', 'jumbo'),
-        allowNull: false
-    },
-    productSizeInCm: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false
-    },
-    productColor: {
-        type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
     },
     productCode: {
@@ -52,4 +41,12 @@ exports.ProductModel = index_1.sequelize.define('Product', {
     timestamps: true,
     underscored: true,
     freezeTableName: true
+});
+exports.ProductModel.hasMany(productVariantModel_1.ProductVariantModel, {
+    foreignKey: 'productId',
+    as: 'variants'
+});
+productVariantModel_1.ProductVariantModel.belongsTo(exports.ProductModel, {
+    foreignKey: 'productId',
+    as: 'product'
 });

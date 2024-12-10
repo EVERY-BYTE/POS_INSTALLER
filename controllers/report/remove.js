@@ -3,50 +3,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findProduct = void 0;
+exports.remove = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
-const productModel_1 = require("../../models/productModel");
-const productSchema_1 = require("../../schemas/productSchema");
+const reportModel_1 = require("../../models/reportModel"); // Import Report model
+const reportSchema_1 = require("../../schemas/reportSchema"); // Import deleteReport schema
 const logger_1 = __importDefault(require("../../utilities/logger"));
-const productVariantModel_1 = require("../../models/productVariantModel");
-const findProduct = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(productSchema_1.findOneProductSchema, req.params);
+const remove = async (req, res) => {
+    // Validasi request parameters untuk reportId
+    const { error, value } = (0, validateRequest_1.validateRequest)(reportSchema_1.deleteReportSchema, req.params);
     if (error) {
         const message = `Invalid request parameters! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const result = await productModel_1.ProductModel.findOne({
+        // Mencari Report berdasarkan reportId
+        const result = await reportModel_1.ReportModel.findOne({
             where: {
-                deleted: 0,
-                productId: value.productId
-            },
-            include: [
-                {
-                    model: productVariantModel_1.ProductVariantModel,
-                    as: 'variants',
-                    attributes: [
-                        'variantId',
-                        'productId',
-                        'variantName',
-                        'variantPrice',
-                        'variantSize',
-                        'variantColor',
-                        'variantCategory'
-                    ]
-                }
-            ]
+                reportId: value.reportId
+            }
         });
         if (!result) {
-            const message = `Product not found with ID: ${value.productId}`;
+            const message = `Report not found with ID: ${value.reportId}`;
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
         }
-        const response = response_1.ResponseData.success(result);
-        logger_1.default.info('Product found successfully');
+        // Menghapus report
+        await result.destroy();
+        // Mengirimkan response sukses
+        const response = response_1.ResponseData.success({
+            message: 'Report deleted successfully'
+        });
+        logger_1.default.info('Report deleted successfully');
         return res.status(http_status_codes_1.StatusCodes.OK).json(response);
     }
     catch (error) {
@@ -55,4 +45,4 @@ const findProduct = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findProduct = findProduct;
+exports.remove = remove;

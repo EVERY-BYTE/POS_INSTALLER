@@ -3,18 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllProducts = void 0;
+exports.findAll = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
-const productModel_1 = require("../../models/productModel");
-const productSchema_1 = require("../../schemas/productSchema");
+const reportModel_1 = require("../../models/reportModel"); // Import Report model
+const reportSchema_1 = require("../../schemas/reportSchema"); // Import findAllReports schema
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const pagination_1 = require("../../utilities/pagination");
 const sequelize_1 = require("sequelize");
-const productVariantModel_1 = require("../../models/productVariantModel");
-const findAllProducts = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(productSchema_1.findAllProductsSchema, req.query);
+const findAll = async (req, res) => {
+    // Validate the incoming query parameters using the Joi schema
+    const { error, value } = (0, validateRequest_1.validateRequest)(reportSchema_1.findAllReportsSchema, req.query);
     if (error) {
         const message = `Invalid request query! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
@@ -22,39 +22,26 @@ const findAllProducts = async (req, res) => {
     }
     try {
         const { page: queryPage, size: querySize, search, pagination } = value;
+        // Initialize Pagination class with query parameters for page and size
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        const result = await productModel_1.ProductModel.findAndCountAll({
+        // Query the database for reports with pagination and optional search filter
+        const result = await reportModel_1.ReportModel.findAndCountAll({
             where: {
-                deleted: 0,
-                ...(Boolean(req.query.search) && {
-                    [sequelize_1.Op.or]: [{ productName: { [sequelize_1.Op.like]: `%${search}%` } }]
+                ...(Boolean(search) && {
+                    reportName: { [sequelize_1.Op.like]: `%${search}%` } // Apply search filter on reportName
                 })
             },
-            include: [
-                {
-                    model: productVariantModel_1.ProductVariantModel,
-                    as: 'variants',
-                    attributes: [
-                        'variantId',
-                        'productId',
-                        'variantName',
-                        'variantPrice',
-                        'variantSize',
-                        'variantColor',
-                        'variantCategory'
-                    ]
-                }
-            ],
-            order: [['productId', 'desc']],
+            order: [['reportId', 'desc']], // Sort by reportId in descending order
             ...(pagination === 'true' && {
-                limit: page.limit,
-                offset: page.offset
+                limit: page.limit, // Apply pagination limit
+                offset: page.offset // Apply pagination offset
             })
         });
+        // Prepare the response data
         const response = response_1.ResponseData.success(result);
-        response.data = page.formatData(result);
-        logger_1.default.info('Products retrieved successfully');
-        return res.status(http_status_codes_1.StatusCodes.OK).json(response);
+        response.data = page.formatData(result); // Format data for pagination
+        logger_1.default.info('Reports retrieved successfully');
+        return res.status(http_status_codes_1.StatusCodes.OK).json(response); // Return successful response
     }
     catch (error) {
         const message = `Unable to process request! Error: ${error.message}`;
@@ -62,4 +49,4 @@ const findAllProducts = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findAllProducts = findAllProducts;
+exports.findAll = findAll;

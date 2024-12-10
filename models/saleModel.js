@@ -59,6 +59,15 @@ exports.SaleModel = index_1.sequelize.define('Sale', {
     salePaymentMethod: {
         type: sequelize_1.DataTypes.ENUM('cash', 'credit_card'),
         allowNull: true
+    },
+    salePo: {
+        type: sequelize_1.DataTypes.STRING(250),
+        allowNull: true
+    },
+    saleOrderStatus: {
+        type: sequelize_1.DataTypes.ENUM('waiting', 'process', 'cancel', 'done'),
+        allowNull: true,
+        defaultValue: 'waiting'
     }
 }, {
     tableName: 'sales',
