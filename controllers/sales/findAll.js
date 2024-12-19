@@ -82,7 +82,7 @@ const findAllSales = async (req, res) => {
                 'saleOrderStatus'
             ],
             order: [['saleId', 'desc']],
-            ...(pagination === 'true' && {
+            ...(pagination === true && {
                 limit: page.limit,
                 offset: page.offset
             })

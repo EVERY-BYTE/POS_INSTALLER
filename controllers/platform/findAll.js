@@ -30,7 +30,7 @@ const findAllPlatforms = async (req, res) => {
                 })
             },
             order: [['platformId', 'desc']], // Assuming 'platformId' is the primary key
-            ...(pagination === 'true' && {
+            ...(pagination === true && {
                 limit: page.limit,
                 offset: page.offset
             })

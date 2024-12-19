@@ -20,9 +20,9 @@ const createSale = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
+        const salePo = value?.salePo?.length === 0 ? (0, generateId_1.generateUniqueId)() : value.salePo;
         const { salesItems, ...saleData } = value;
-        const saleCode = (0, generateId_1.generateUniqueId)();
-        const sale = await saleModel_1.SaleModel.create({ ...saleData, saleCode: (0, generateId_1.generateUniqueId)(), userId: 1 }, {
+        const sale = await saleModel_1.SaleModel.create({ ...saleData, saleCode: (0, generateId_1.generateUniqueId)(), userId: 1, salePo }, {
             include: [
                 {
                     model: saleItemModel_1.SaleItemModel,

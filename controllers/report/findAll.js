@@ -31,10 +31,10 @@ const findAll = async (req, res) => {
                     reportName: { [sequelize_1.Op.like]: `%${search}%` } // Apply search filter on reportName
                 })
             },
-            order: [['reportId', 'desc']], // Sort by reportId in descending order
-            ...(pagination === 'true' && {
-                limit: page.limit, // Apply pagination limit
-                offset: page.offset // Apply pagination offset
+            order: [['reportId', 'desc']],
+            ...(pagination === true && {
+                limit: page.limit,
+                offset: page.offset
             })
         });
         // Prepare the response data

@@ -22,6 +22,10 @@ const findAll = async (req, res) => {
     try {
         const { page: queryPage, size: querySize, search, pagination } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
+        console.log(page);
+        console.log('====is pagination=====');
+        console.log(pagination);
+        console.log(pagination === 'true');
         const result = await companyModel_1.CompanyModel.findAndCountAll({
             where: {
                 ...(Boolean(req.query.search) && {
@@ -29,7 +33,7 @@ const findAll = async (req, res) => {
                 })
             },
             order: [['companyId', 'desc']],
-            ...(pagination === 'true' && {
+            ...(pagination === true && {
                 limit: page.limit,
                 offset: page.offset
             })

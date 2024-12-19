@@ -61,7 +61,8 @@ const findOneSale = async (req, res) => {
                 'salePaymentMethod',
                 'saleCode',
                 'saleDeliverCompanyName',
-                'saleDeliverCompanyAddress'
+                'saleDeliverCompanyAddress',
+                'salePo'
             ]
         });
         if (!sale) {

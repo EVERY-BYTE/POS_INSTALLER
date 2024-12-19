@@ -46,7 +46,7 @@ const findAllProducts = async (req, res) => {
                 }
             ],
             order: [['productId', 'desc']],
-            ...(pagination === 'true' && {
+            ...(pagination === true && {
                 limit: page.limit,
                 offset: page.offset
             })
