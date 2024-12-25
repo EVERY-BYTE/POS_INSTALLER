@@ -12,6 +12,7 @@ const platformRouter_1 = __importDefault(require("./platformRouter"));
 const companyRouter_1 = __importDefault(require("./companyRouter"));
 const statisticRouter_1 = __importDefault(require("./statisticRouter"));
 const reportRouter_1 = __importDefault(require("./reportRouter"));
+const settingRouter_1 = __importDefault(require("./settingRouter"));
 const uploadFileRouter_1 = __importDefault(require("./uploadFileRouter"));
 const appRouterV1 = (app) => {
     app.get(`/api/v1`, async (req, res) => await (0, controllers_1.index)(req, res));
@@ -23,5 +24,6 @@ const appRouterV1 = (app) => {
     app.use(`/api/v1/companies`, companyRouter_1.default);
     app.use(`/api/v1/statistic`, statisticRouter_1.default);
     app.use(`/api/v1/reports`, reportRouter_1.default);
+    app.use(`/api/v1/settings`, settingRouter_1.default);
 };
 exports.appRouterV1 = appRouterV1;

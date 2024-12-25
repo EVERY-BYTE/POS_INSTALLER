@@ -11,7 +11,6 @@ const logger_1 = __importDefault(require("../../utilities/logger"));
 const response_1 = require("../../utilities/response");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const statisticSchema_1 = require("../../schemas/statisticSchema");
-const pagination_1 = require("../../utilities/pagination");
 // Helper function to calculate date ranges
 const getDateRange = (filterType) => {
     const now = new Date();
@@ -45,7 +44,6 @@ const findReportTotals = async (req, res) => {
     }
     try {
         const { page: queryPage, size: querySize, search, pagination, filterType, startDate, endDate } = value;
-        const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
         // Calculate date range based on filterType
         const { startDate: filterStartDate, endDate: filterEndDate } = getDateRange(filterType ?? '');
         const dateFilter = filterType

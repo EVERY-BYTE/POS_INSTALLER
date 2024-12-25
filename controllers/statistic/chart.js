@@ -92,7 +92,7 @@ const findChart = async (req, res) => {
                     ]
                 }
             ],
-            attributes: ['createdAt', 'saleTotalAmount'],
+            attributes: ['createdAt', 'saleTotalAmount', 'salePlatformName'],
             order: [['saleId', 'desc']],
             ...(pagination === true && {
                 limit: page.limit,
