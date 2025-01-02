@@ -13,7 +13,6 @@ const logger_1 = __importDefault(require("../../utilities/logger"));
 const saleItemModel_1 = require("../../models/saleItemModel");
 const sequelize_1 = require("sequelize");
 const pagination_1 = require("../../utilities/pagination");
-const productModel_1 = require("../../models/productModel");
 const findAllSales = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(saleSchema_1.findAllSaleSchema, req.query);
     if (error) {
@@ -50,36 +49,13 @@ const findAllSales = async (req, res) => {
                         'createdAt',
                         'saleItemId',
                         'saleId',
-                        'productId',
                         'saleItemQuantity',
                         'saleItemPrice',
-                        'saleItemSubtotal'
-                    ],
-                    include: [
-                        {
-                            model: productModel_1.ProductModel,
-                            as: 'product',
-                            attributes: [
-                                'productName',
-                                'productCategory',
-                                'productPrice',
-                                'productStockQuantity'
-                            ]
-                        }
+                        'saleItemSubtotal',
+                        'saleItemProductName',
+                        'saleItemProductCode'
                     ]
                 }
-            ],
-            attributes: [
-                'createdAt',
-                'saleTotalAmount',
-                'saleId',
-                'salePaymentMethod',
-                'saleCode',
-                'saleDeliverCompanyName',
-                'saleDeliverCompanyAddress',
-                'salePlatformName',
-                'salePo',
-                'saleOrderStatus'
             ],
             order: [['saleId', 'desc']],
             ...(pagination === true && {

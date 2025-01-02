@@ -11,9 +11,7 @@ const saleModel_1 = require("../../models/saleModel");
 const saleItemModel_1 = require("../../models/saleItemModel");
 const saleSchema_1 = require("../../schemas/saleSchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
-const productModel_1 = require("../../models/productModel");
 const findOneSale = async (req, res) => {
-    console.log(req.params);
     const { error, value } = (0, validateRequest_1.validateRequest)(saleSchema_1.findOneSaleSchema, req.params);
     if (error) {
         const message = `Invalid request parameters! ${error.details.map((x) => x.message).join(', ')}`;
@@ -34,35 +32,13 @@ const findOneSale = async (req, res) => {
                         'createdAt',
                         'saleItemId',
                         'saleId',
-                        'productId',
                         'saleItemQuantity',
                         'saleItemPrice',
-                        'saleItemSubtotal'
-                    ],
-                    include: [
-                        {
-                            model: productModel_1.ProductModel,
-                            as: 'product',
-                            attributes: [
-                                'productName',
-                                'productCategory',
-                                'productPrice',
-                                'productStockQuantity',
-                                'productCode'
-                            ]
-                        }
+                        'saleItemSubtotal',
+                        'saleItemProductName',
+                        'saleItemProductCode'
                     ]
                 }
-            ],
-            attributes: [
-                'createdAt',
-                'saleId',
-                'saleTotalAmount',
-                'salePaymentMethod',
-                'saleCode',
-                'saleDeliverCompanyName',
-                'saleDeliverCompanyAddress',
-                'salePo'
             ]
         });
         if (!sale) {

@@ -21,7 +21,11 @@ exports.SaleModel = index_1.sequelize.define('Sale', {
             key: 'userId'
         }
     },
-    saleTotalAmount: {
+    saleTotalPrice: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    saleFinalPrice: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
         allowNull: false
     },

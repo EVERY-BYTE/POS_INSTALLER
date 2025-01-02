@@ -15,7 +15,8 @@ exports.findAllSaleSchema = joi_1.default.object({
     endDate: joi_1.default.string().allow('').optional()
 });
 exports.createSaleSchema = joi_1.default.object({
-    saleTotalAmount: joi_1.default.number().positive().required(),
+    saleTotalPrice: joi_1.default.number().positive().required(),
+    saleFinalPrice: joi_1.default.number().positive().required(),
     saleTax: joi_1.default.number().optional(),
     saleDiscount: joi_1.default.number().optional(),
     saleDeliveryCost: joi_1.default.number().optional(),
@@ -26,7 +27,9 @@ exports.createSaleSchema = joi_1.default.object({
     salePo: joi_1.default.string().optional().allow(''),
     saleItems: joi_1.default.array()
         .items(joi_1.default.object({
-        productId: joi_1.default.number().integer().positive().required(),
+        productId: joi_1.default.number().integer().positive().optional(),
+        saleItemProductName: joi_1.default.string().required(),
+        saleItemProductCode: joi_1.default.string().required(),
         saleItemQuantity: joi_1.default.number().integer().positive().required(),
         saleItemPrice: joi_1.default.number().positive().required(),
         saleItemSubtotal: joi_1.default.number().positive().required()
@@ -35,7 +38,7 @@ exports.createSaleSchema = joi_1.default.object({
 });
 exports.updateSaleSchema = joi_1.default.object({
     saleId: joi_1.default.number().integer().positive().required(),
-    saleTotalAmount: joi_1.default.number().positive().optional(),
+    saleTotalPrice: joi_1.default.number().positive().optional(),
     saleTax: joi_1.default.number().positive().optional(),
     saleDiscount: joi_1.default.number().positive().optional(),
     saleDeliveryCost: joi_1.default.number().positive().optional(),
@@ -50,6 +53,8 @@ exports.updateSaleSchema = joi_1.default.object({
     saleItems: joi_1.default.array()
         .items(joi_1.default.object({
         productId: joi_1.default.number().integer().positive().optional(),
+        saleItemProductName: joi_1.default.string().required(),
+        saleItemProductCode: joi_1.default.string().required(),
         saleItemQuantity: joi_1.default.number().integer().positive().optional(),
         saleItemPrice: joi_1.default.number().positive().optional(),
         saleItemSubtotal: joi_1.default.number().positive().optional()

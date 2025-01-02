@@ -4,8 +4,8 @@ exports.SaleItemModel = void 0;
 const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const saleModel_1 = require("./saleModel");
-const productModel_1 = require("./productModel");
 const zygote_1 = require("./zygote");
+const productModel_1 = require("./productModel");
 exports.SaleItemModel = index_1.sequelize.define('SaleItem', {
     ...zygote_1.ZygoteModel,
     saleItemId: {
@@ -31,6 +31,14 @@ exports.SaleItemModel = index_1.sequelize.define('SaleItem', {
     },
     saleItemQuantity: {
         type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    saleItemProductName: {
+        type: sequelize_1.DataTypes.STRING(250),
+        allowNull: false
+    },
+    saleItemProductCode: {
+        type: sequelize_1.DataTypes.STRING(250),
         allowNull: false
     },
     saleItemPrice: {

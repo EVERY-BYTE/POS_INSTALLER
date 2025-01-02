@@ -84,7 +84,7 @@ const getSalesStatistics = async (req, res) => {
                     ]
                 }
             ],
-            attributes: ['saleTotalAmount', 'createdAt']
+            attributes: ['saleFinalPrice', 'createdAt']
         });
         if (!sales) {
             const message = `Report not found with ID: ${value.reportId}`;
@@ -96,7 +96,7 @@ const getSalesStatistics = async (req, res) => {
             const itemTotal = sale?.saleItems?.reduce((itemSum, item) => itemSum + (item.saleItemQuantity || 0), 0);
             return sum + itemTotal;
         }, 0);
-        const totalAmount = sales.reduce((sum, sale) => sum + parseFloat(sale.saleTotalAmount + '' || '0'), 0);
+        const totalAmount = sales.reduce((sum, sale) => sum + parseFloat(sale.saleFinalPrice + '' || '0'), 0);
         const response = {
             totalItems,
             totalAmount,

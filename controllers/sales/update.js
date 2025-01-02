@@ -30,7 +30,7 @@ const updateSale = async (req, res) => {
             if (saleResult !== null) {
                 const payload = {
                     reportName: `orderan`,
-                    reportTotalAmount: saleResult.saleTotalAmount,
+                    reportTotalAmount: saleResult.saleFinalPrice,
                     reportDescription: `Orderan dari ${saleResult.saleDeliverCompanyName}`,
                     reportCategory: 'income'
                 };

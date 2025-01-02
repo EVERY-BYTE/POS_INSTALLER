@@ -41,7 +41,8 @@ const findAllProducts = async (req, res) => {
                         'variantPrice',
                         'variantSize',
                         'variantColor',
-                        'variantCategory'
+                        'variantCategory',
+                        'variantImage'
                     ]
                 }
             ],

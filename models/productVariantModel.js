@@ -39,6 +39,10 @@ exports.ProductVariantModel = index_1.sequelize.define('ProductVariant', {
     variantCategory: {
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: true
+    },
+    variantImage: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true
     }
 }, {
     tableName: 'product_variants',

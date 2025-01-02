@@ -10,9 +10,10 @@ const variantSchema = joi_1.default.object({
     productId: joi_1.default.number().integer().optional().allow(''),
     variantName: joi_1.default.string().max(255).required(),
     variantPrice: joi_1.default.number().positive().required(),
-    variantSize: joi_1.default.string().max(100).optional(),
-    variantColor: joi_1.default.string().max(100).optional(),
-    variantCategory: joi_1.default.string().max(100).optional()
+    variantSize: joi_1.default.optional().allow(''),
+    variantColor: joi_1.default.optional().allow(''),
+    variantCategory: joi_1.default.optional().allow(''),
+    variantImage: joi_1.default.optional().allow('')
 });
 exports.createProductSchema = joi_1.default.object({
     productName: joi_1.default.string().max(255).required(),
